@@ -2,7 +2,11 @@ const passport = require("passport");
 
 module.exports = app => {
   app.get("/", (req, res) => {
-    res.send("Hello it is me");
+    if (req.user) {
+      res.send("Hello " + req.user.displayName);
+    } else {
+      res.send("Hello stranger login with <a href='/auth/google/'>google</a>!");
+    }
   });
 
   app.get(
@@ -10,7 +14,13 @@ module.exports = app => {
     passport.authenticate("google", { scope: ["profile", "email"] })
   );
 
-  app.get("/auth/google/callback", passport.authenticate("google"));
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google", {
+      successRedirect: "/",
+      failureRedirect: "/"
+    })
+  );
 
   app.get("/api/user", (req, res) => {
     res.send(req.user);

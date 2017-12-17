@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const keys = require("./keys/dev");
+const keys = require("./config/keys");
 const passport = require("passport");
 const CookieSession = require("cookie-session");
 require("./models/users");
@@ -13,7 +13,7 @@ const app = express();
 app.use(
   CookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: ["ajdfh;kadsjfj;lkak;jdflk;jask;lfjkas"]
+    keys: [keys.COOKIE_KEY]
   })
 );
 
